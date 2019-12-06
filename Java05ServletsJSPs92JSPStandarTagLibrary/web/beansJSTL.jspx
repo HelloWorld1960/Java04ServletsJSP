@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+    Document   : beansJSTL
+    Created on : May 18, 2019, 3:33:26 PM
+    Author     : Panzer01
+    En este jspx creamos objetos de tipo Rectangulo, luego asignamos valores como su base y altura. Posteriormente 
+    almacenamos los objetos Rectangulo en la lista ListaRectangulos.
+    Finalmente iteramos cada objeto Rectangulo.
+-->
+<!-- Especificamos la libreria a utilizar, en este caso es core. 
+     Tambien especificamos la libreria JSP. -->
+<jsp:root 
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    version="2.1">
+
+    <jsp:directive.page contentType="text/html" pageEncoding="UTF-8"/>
+    <head>
+        <title>JavaBeans y JSTL</title>
+    </head>
+
+    <body>
+        <h1>Iterando una lista de JavaBeans de tipo Rectangulo</h1>
+
+        <!--Creamos 2 objetos de tipo rectangulo -->
+        <!--Objeto 1 -->
+        <jsp:useBean id="rec1" class="beans.Rectangulo" >
+            <!-- Asignando valores. -->
+            <c:set target="${rec1}" property="base" value="2" />
+            <c:set target="${rec1}" property="altura" value="4" />
+        </jsp:useBean>
+
+        <!--Objeto 1 -->
+        <jsp:useBean id="rec2" class="beans.Rectangulo" >
+            <!-- Asignando valores. -->
+            <c:set target="${rec2}" property="base" value="3" />
+            <c:set target="${rec2}" property="altura" value="5" />
+        </jsp:useBean>
+
+        <!--Declaramos la lista de rectangulos como un JavaBean-->
+        <!-- En este caso se esta creando un objeto llamado rectangulos el cual va almacenar la referencia de los 
+        objetos rectangulos que se crearon anteriormente -->
+        <jsp:useBean id="rectangulos" class="beans.ListaRectangulos">
+            <!-- La propiedad rectangulo es la que contiene la clase ListaRectangulos. 
+                 Los valores que asignaremos a ListaRectangulos(rectangulos) values.
+                 La propiedad rectangulo, lo que enrealidad hace es llamar a el metodo set rentangulo de ListaRectangulos-->
+            <c:set target="${rectangulos}" property="rectangulo" value="${rec1}" />
+            <c:set target="${rectangulos}" property="rectangulo" value="${rec2}" />
+        </jsp:useBean>
+
+        <!-- Despliegue de la información -->
+        <ul>
+            <!-- status hace referencia a el indice. 
+                 Por medio del atributo items usando Expression Lenguage, indicamos cual va ser la lista que se va iterar,
+                 en este caso es el atributo lista del objeto rectangulos(ListaRectangulos). -->
+            <c:forEach varStatus="status" var="rectangulo" items="${rectangulos.lista}" >
+                <li>
+                    <!-- status.count hace referencia a el indice que se esta iterando. 
+                         Accedemos por medio de ExpressionLenguaje a los atributos del objeto rectangulo. -->
+                    Rectangulo ${status.count} -
+                    Base: ${rectangulo.base}
+                    Altura: ${rectangulo.altura}
+                </li>
+            </c:forEach>
+        </ul>
+
+        <br/>
+        <a href="index.jsp">Regresar al Inicio</a>
+    </body>
+
+</jsp:root>
